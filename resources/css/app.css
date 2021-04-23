@@ -1,0 +1,33 @@
+.modal-xxl{
+    min-width: 90vw;
+    min-height: 90vh;
+}
+
+.hover:hover{
+    cursor: pointer;
+}
+.danger-hover:hover{
+    cursor: pointer;
+    color: red !important;
+}
+
+tr.success td{
+    background-color: #c7ffce;
+}
+tr.success:hover td{
+    background-color: #b4f9bd;
+}
+
+tr.danger td{
+    background-color: #ffc7c7;
+}
+tr.danger:hover td{
+    background-color: #f9b4b4;
+}
+
+tr.warning td{
+    background-color: #ffefc7;
+}
+tr.warning:hover td{
+    background-color: #f9f3b4;
+}
