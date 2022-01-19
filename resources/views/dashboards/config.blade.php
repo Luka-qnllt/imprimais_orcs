@@ -25,6 +25,40 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                @if($errors->any())
+                <div class="row d-flex justify-content-center text-center">
+                    <div class="col-12">
+                        <div class="alert-danger p-2 m-4"><strong>{{ $errors->first() }}</strong></div>
+                    </div>
+                </div>
+                @endif
+                    
+                    @foreach( $parametros as $param )
+                        <form method="POST" action="/params/update/{{ $param->id }}">
+                            <div class="row mb-2">
+                                <div class="col-2">
+                                    <input name="operacao" type="text" class="form-control" value="{{$param->operacao}}" readonly>
+                                </div>
+                                <div class="col-2">
+                                    <input name="atributo" type="text" class="form-control" value="{{$param->atributo}}" readonly>
+                                </div>
+                                <div class="col-7">
+                                    <input name="valor" type="text" class="form-control" value="{{$param->valor}}">
+                                </div>
+                                <div class="col-1">
+                                    <button type="submit" class="float-left btn btn-outline-success"><i class="far fa-check-circle"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="modal fade" class="modal-md" aria-modal="true" id="modal-alter-password">
@@ -66,7 +100,7 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Alterar Senha</h4>
+                    <h4 class="modal-title">Alterar Login: <b>{{ Auth::user()->login }}</b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>

@@ -47,8 +47,9 @@ class LoginController extends Controller
 
     public function login(Request $request){
         $credentials = $request->only('login', 'password');
+        $remember = $request->input('remember');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $remember ? true : false)) {
             $request->session()->regenerate();
             return redirect()->intended('orcamentos');
         }

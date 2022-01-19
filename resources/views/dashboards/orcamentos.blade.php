@@ -5,8 +5,8 @@
     <form>
         <div class="row">
             <div class="col-md-12">
-                <div class="card card-outline card-primary">
-                    <div class="card-header">
+                <div class="card">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -48,9 +48,10 @@
                                     <input  type="date" id="search-inicio" class="form-control">
                                 </div>
                             </div>
+                            <div class="col-12"><hr class="sep-dot"></div>
                             <div class="col-md-4">
-                                <button type="button" id="btn-search" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
-                                <button type="button" id="btn-clean-seach" class="btn btn-danger"><i class="fa fa-times"></i> Limpar</button>
+                                <button type="button" id="btn-search" class="btn btn-outline-primary"><i class="fa fa-search"></i> Buscar</button>
+                                <button type="button" id="btn-clean-seach" class="btn btn-outline-danger"><i class="fa fa-times"></i> Limpar</button>
                             </div>
                             <div class="col-md-6">
                                 <div class="badge badge-danger">Pendentes: <span id="pendentes"></span></div>
@@ -58,12 +59,11 @@
                                 <div class="badge badge-warning">A Receber: <span id="receber"></span></div>
                             </div>
                             <div class="col-md-2">
-                                <button type="button" id="open-modal-orc" class="btn btn-success float-right"><i class="fa fa-plus"></i> Novo</button>
+                                <button type="button" id="open-modal-orc" class="btn btn-outline-success float-right"><i class="fa fa-plus"></i> Novo</button>
                             </div>
+
+                            <div class="col-12"><hr class="sep-dot"></div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
@@ -92,7 +92,7 @@
     </form>
 
 
-    <div class="modal fade" class="modal-xl" aria-modal="true" id="modal-orc">
+    <div class="modal fade" aria-modal="true" id="modal-orc">
         <div class="modal-dialog modal-xxl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -239,9 +239,60 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer justify-content-right">
-                <button  type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="submit" form="form-orc" class="btn btn-primary">Salvar</button>
+                <div class="modal-footer">
+                    <div class="row w-100">
+                        <div class="col-md-6 text-left">
+                            <form action="/orcamentos/pdf-orcamento" id="form-pdf" method="post" target="_blank">
+                                <button type="submit" class="btn btn-outline-secondary"><i class="far fa-file-pdf"></i> Gerar PDF</button>
+                            </form>
+                            <button type="button" class="btn btn-outline-primary" id="send-mail" style="display: none;"><i class="far fa-envelope"></i> Enviar Email</button>
+                        </div>
+                        
+                        <div class="col-md-6 text-right">
+                            <button  type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" form="form-orc" class="btn btn-outline-success"><i class="far fa-check-circle"></i> Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL MAIL -->
+    <div class="modal fade" class="modal-md" aria-modal="true" id="modal-mail">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Enviar Email</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-mail">
+                        <input type="hidden" name="id_orc">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea name="message" class="form-control" placeholder="Mensagem"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="row w-100">
+                        <div class="col-md-12 text-right">
+                            <button  type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" form="form-mail" class="btn btn-outline-primary"><i class="far fa-paper-plane"></i> Enviar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

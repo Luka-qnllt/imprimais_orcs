@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Orcamento;
 use App\Models\OrcamentoItem;
+use App\Models\Parametro;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use App\Services\{
     ApiTempOldOrc
 };
 use Illuminate\Support\Facades\Auth;
+use RuntimeException;
 
 class ConfigController extends Controller
 {
@@ -26,7 +28,11 @@ class ConfigController extends Controller
     }
 
     public function index(){
-        return view('dashboards.config');
+        $parametro = new Parametro;
+        $parametros = $parametro->all();
+        return view('dashboards.config', [
+            'parametros' => $parametros
+        ]);
     }
 
     public function changePass(Request $request){
@@ -78,5 +84,23 @@ class ConfigController extends Controller
             $out = ['status'=>false, 'msg'=>$e->getMessage()];
         }
         return response()->json($out);
+    }
+
+    public function updateParametro(Parametro $parametro, Request $request){
+
+        try{
+            
+            $data = [
+                'operacao' => $request->input('operacao'),
+                'atributo' => $request->input('atributo'),
+                'valor' => $request->input('valor'),
+            ];
+
+            $parametro->update($data);
+
+            return redirect('/config');
+        } catch (Exception $e){
+            return back()->withErrors([ $e->getMessage() ]);
+        }
     }
 }

@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\{
     Auth\LoginController,
     OrcamentoController,
-    ConfigController
+    ConfigController,
+    PdfController,
+    EmailController
 };
 /*
 |--------------------------------------------------------------------------
@@ -35,12 +37,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/orcamentos/ajax/delete/{orcamento}', [OrcamentoController::class, 'delete']);
     Route::post('/orcamentos/ajax/delete-item/{item}', [OrcamentoController::class, 'deleteItem']);
 
-    Route::get('/orcamentos/restorage', [OrcamentoController::class, 'restorage']);
+    Route::post('/orcamentos/pdf-orcamento/{orcamento}', [PdfController::class, 'generatePdf']);
+    Route::post('/orcamentos/ajax/send-mail/{orcamento}', [EmailController::class, 'sendMail']);
+
+    // Route::get('/orcamentos/restorage', [OrcamentoController::class, 'restorage']);
     
     Route::get('/config', [ConfigController::class, 'index'])->name('config');
     Route::post('/user/change-pass', [ConfigController::class, 'changePass']);
     Route::post('/user/change-login', [ConfigController::class, 'changeLogin']);
+    Route::post('/params/update/{parametro}', [ConfigController::class, 'updateParametro']);
 
 });
 
+Route::get('/orcamentos/teste-mail/{orcamento}', [EmailController::class, 'editMail']);
 

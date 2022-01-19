@@ -11,6 +11,8 @@ use App\Services\{
     OrcamentoService,
     ApiTempOldOrc
 };
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class OrcamentoController extends Controller
 {
@@ -216,6 +218,5 @@ class OrcamentoController extends Controller
         return floatval($str);
 
     }
-
 }
 

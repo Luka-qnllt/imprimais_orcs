@@ -41,11 +41,23 @@ const page = {
             $('#search-pagamento').val('PD')
             $('#search-prioridade').val('')
         })
+
+
+        /**
+         * email sand
+         */
+        $('#send-mail').on('click', page.setValuesMail)
+        $('#form-mail').on('submit', page.sendMail)
+        $('.modal').on('hidden.bs.modal', function(){
+            $('.modal').css('orverflow', 'auto')
+        })
     },
     resetForm: function(){
         $('#form-orc').trigger('reset')
         $('#form-orc').find('[name=id]').val('')
         $('#itens-wrap').html('')
+        $('#form-pdf').css('display', 'none')
+        $('#send-mail').css('display', 'none')
     },
     addItem: function(data){
         const index = page.geraIndex()
@@ -76,6 +88,7 @@ const page = {
             total += parseFloat($(el).data('valor'))
         })
         $('#total-itens').html(utils.toMoney(total))
+        $('#form-orc').find('[name=valor_total]').val(utils.toMoney(total))
     },
     atualizaIndexItem: function(){
         $('.index-item').each((i, el)=>{
@@ -146,6 +159,7 @@ const page = {
             },
             success: (resp)=>{
                 utils.load.stop()
+                let currentPage = $('.page-item.active a').data('dt-idx') ? $('.page-item.active a').data('dt-idx') : 1
                 
                 let infos = {
                     receber: 0,
@@ -186,16 +200,21 @@ const page = {
                                 <td>${utils.status[orc.status] || '-'}</td>
                                 <td>${utils.toMoney(orc.valor_total) || '-'}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-danger flot-right btn-delete text-white" data-id="${orc.id}"><i class="fa fa-trash"></i></a>
+                                    <button class="btn btn-sm btn-outline-danger flot-right btn-delete" data-id="${orc.id}"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>`
                 }
                 $('#table-orc').DataTable().destroy()
                 $('#orcs-wrap').html(content)
-                $('#table-orc').DataTable({"language": {
-                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
-                }})
-
+                const tableData = $('#table-orc').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+                    }, 
+                    "pageLength": 50,
+                })
+                
+                console.log('currentPage ', currentPage)
+                setTimeout(()=>{$(`.page-item a[data-dt-idx=${currentPage}]`).click()}, 100)
                 //infos
                 $('#receber').html(utils.toMoney(infos.receber))
                 $('#recebido').html(utils.toMoney(infos.recebido))
@@ -245,6 +264,9 @@ const page = {
             }
             page.addItem(dataItem)
         }
+        $('#form-pdf').attr('action', '/orcamentos/pdf-orcamento/'+data.id)
+        $('#form-pdf').css('display', 'initial')
+        $('#send-mail').css('display', 'initial')
         $('#modal-orc').modal('show')
     },
     delete: function(id){
@@ -293,6 +315,48 @@ const page = {
             page.atualizaIndexItem()
             page.atualizeTotalItens()
         }
+    },
+    setValuesMail: function(){
+        const formOrc = $('#form-orc')
+        const formMail = $('#form-mail')
+        const id = formOrc.find('[name=id]').val()
+        const email = formOrc.find('[name=email]').val().toLowerCase()
+        formMail.find('[name=email]').val(email)
+        formMail.find('[name=id_orc]').val(id)
+        $('#modal-mail').modal('show')
+    },
+    sendMail: function(evt){
+        evt.preventDefault()
+        const formMail = $('#form-mail')
+        const id_orc = formMail.find('[name=id_orc]').val()
+
+        utils.load.start()
+        $.ajax({
+            url: '/orcamentos/ajax/send-mail/'+id_orc,
+            type: 'post',
+            dataType: 'json',
+            data: {
+                email: formMail.find('[name=email]').val(),
+                message: formMail.find('[name=message]').val()
+            },
+            success: (resp)=>{
+                utils.load.stop()
+                if(resp.status){
+                    formMail.find('[name=email]').val('')
+                    formMail.find('[name=message]').val('')
+                    formMail.find('[name=id_orc]').val('')
+                    $('#modal-mail').modal('hide')
+                    utils.success({title: 'Email enviado com sucesso!'})
+                } else {
+                    utils.setError({msg: resp.msg || 'Falha ao enviar email'})
+                }
+            },
+            error: (e)=>{
+                utils.load.stop()
+                utils.setError({msg: e.responseText})
+                console.error(e)
+            }
+        })
     }
 }
 
@@ -300,4 +364,5 @@ $(document).ready(function(){
     page.bindEvents()
     page.list()
     $('.money').maskMoney({decimal: ',', thousands: '.'})
+    $('.modal').css('orverflow', 'auto')
 })

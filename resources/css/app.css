@@ -3,7 +3,7 @@
     min-height: 90vh;
 }
 
-.hover:hover{
+.hover{
     cursor: pointer;
 }
 .danger-hover:hover{
@@ -30,4 +30,14 @@ tr.warning td{
 }
 tr.warning:hover td{
     background-color: #f9f3b4;
+}
+
+.sidebar-light-info-alt {
+    background-color: #297fb8 !important;
+}
+.sidebar-light-info-alt ul li a.active{
+    background-color: #3a6796 !important;
+}
+.sidebar-light-info-alt ul li a{
+    color: #fff !important;
 }
