@@ -16,6 +16,7 @@ class Orcamento extends Model
         'protocolo',
         'responsavel',
         'solicitante',
+        'area',
         'email',
         'telefone',
         'inicio',

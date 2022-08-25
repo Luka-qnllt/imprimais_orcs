@@ -73,6 +73,7 @@
                                                 <th>Nota</th>
                                                 <th>Pedido</th>
                                                 <th>Solicitante</th>
+                                                <th>Área</th>
                                                 <th>Início</th>
                                                 <th>Status</th>
                                                 <th>Valor</th>
@@ -107,19 +108,19 @@
                         <div class="row">
 
                             <!-- ROW -->
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="responsavel">Responsável</label>
                                     <input type="text" class="form-control" name="responsavel">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="inicio">Início</label>
                                     <input type="date" class="form-control" name="inicio">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="previsao">Previsão</label>
                                     <input type="text" class="form-control" name="previsao">
@@ -127,10 +128,16 @@
                             </div>
 
                             <!-- ROW -->
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="solicitante">Solicitante</label>
                                     <input type="text" class="form-control" name="solicitante">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="area">Área</label>
+                                    <input type="text" class="form-control" name="area">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -157,19 +164,19 @@
                             </div>
 
                             <!-- ROW -->
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control" name="email">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="pedido">Pedido</label>
                                     <input type="text" class="form-control" name="pedido">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nota_fiscal">Nota Fiscal</label>
                                     <input type="text" class="form-control" name="nota_fiscal">
@@ -177,19 +184,19 @@
                             </div>
 
                             <!-- ROW -->
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefone">Telefone</label>
                                     <input type="text" class="form-control" name="telefone">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="valor_total">Valor Total</label>
                                     <input type="text" class="form-control money" name="valor_total">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="pagamento">Pagamento</label>
                                     <select class="form-control" name="pagamento">
@@ -297,6 +304,12 @@
             </div>
         </div>
     </div>
+
+    <style>
+        .btn-delete {
+            z-index: 9999;
+        }
+    </style>
 @stop
 
 @section('js')

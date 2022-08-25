@@ -26,7 +26,8 @@ const page = {
             }
         })
         $('#orcs-wrap').on('click', '.btn-edit', function(){page.get($(this).data('id'))})
-        $('#orcs-wrap').on('click', '.btn-delete', function(){
+        $('#orcs-wrap').on('click', '.btn-delete', function(e){
+            e.stopPropagation()
             const id = $(this).data('id')
             utils.confirm({
                 title: 'Deseja deletar este registro?',
@@ -196,11 +197,12 @@ const page = {
                                 <td>${orc.nota_fiscal || '-'}</td>
                                 <td>${orc.pedido || '-'}</td>
                                 <td>${orc.solicitante || '-'}</td>
+                                <td>${orc.area || '-'}</td>
                                 <td>${utils.formartDate(orc.inicio) || '-'}</td>
                                 <td>${utils.status[orc.status] || '-'}</td>
                                 <td>${utils.toMoney(orc.valor_total) || '-'}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-danger flot-right btn-delete" data-id="${orc.id}"><i class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger flot-right btn-delete" data-id="${orc.id}"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>`
                 }

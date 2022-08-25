@@ -39,6 +39,7 @@ class OrcamentoController extends Controller
         $valid_data = $request->validate([
             'responsavel' => 'nullable|string',
             'solicitante' => 'nullable|string',
+            'area'        => 'nullable|string',
             'email'       => 'nullable|string',
             'telefone'    => 'nullable|string',
             'inicio'      => 'nullable|string',
@@ -69,6 +70,7 @@ class OrcamentoController extends Controller
             $dataOrc = [
                 'responsavel' => $valid_data['responsavel'],
                 'solicitante' => $valid_data['solicitante'],
+                'area'        => $valid_data['area'],
                 'email'       => $valid_data['email'],
                 'telefone'    => $valid_data['telefone'],
                 'inicio'      => $valid_data['inicio'],
@@ -128,6 +130,7 @@ class OrcamentoController extends Controller
         $valid_data = $request->validate([
             'responsavel' => 'nullable|string',
             'solicitante' => 'nullable|string',
+            'area'        => 'nullable|string',
             'email'       => 'nullable|string',
             'telefone'    => 'nullable|string',
             'inicio'      => 'nullable|string',
@@ -158,6 +161,7 @@ class OrcamentoController extends Controller
             $dataOrc = [
                 'responsavel' => $valid_data['responsavel'],
                 'solicitante' => $valid_data['solicitante'],
+                'area'        => $valid_data['area'],
                 'email'       => $valid_data['email'],
                 'telefone'    => $valid_data['telefone'],
                 'inicio'      => $valid_data['inicio'],
