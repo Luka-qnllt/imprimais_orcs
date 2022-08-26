@@ -15,13 +15,13 @@ class PdfController extends Controller
         date_default_timezone_set('America/Sao_Paulo');
     }
     public function generatePdf(Orcamento $orcamento){
-        // return view('archives.pdf-orcamento', ['orc' => $orcamento]);
-
+        
         $parametrosService = new ParametrosService;
         $parametros = $parametrosService->formatParams();
-
+        
         $orcamento->itens;
+        // return view('archives.pdf-orcamento', ['orc' => $orcamento, 'params' => $parametros]);
         $pdf = PDF::loadView('archives.pdf-orcamento', ['orc' => $orcamento, 'params' => $parametros]);
-        return $pdf->stream( 'Orçamento - ' .$orcamento->responsavel . ' - ' . $orcamento->solicitante . '.pdf');
+        return $pdf->stream( 'Orçamento - '.$orcamento->responsavel.' - '.$orcamento->solicitante.' - '.$orcamento->id.'.pdf');
     }
 }

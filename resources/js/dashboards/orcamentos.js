@@ -54,6 +54,7 @@ const page = {
         })
     },
     resetForm: function(){
+        $('#orc-modal-title').html(`Novo orçamento`)
         $('#form-orc').trigger('reset')
         $('#form-orc').find('[name=id]').val('')
         $('#itens-wrap').html('')
@@ -194,6 +195,7 @@ const page = {
                     
                     content += `
                             <tr class="hover btn-edit ${trClass}" data-id="${orc.id}">
+                                <td>${orc.id}</td>
                                 <td>${orc.nota_fiscal || '-'}</td>
                                 <td>${orc.pedido || '-'}</td>
                                 <td>${orc.solicitante || '-'}</td>
@@ -213,6 +215,7 @@ const page = {
                         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
                     }, 
                     "pageLength": 50,
+                    "order": [[0, 'desc']]
                 })
                 
                 console.log('currentPage ', currentPage)
@@ -266,6 +269,7 @@ const page = {
             }
             page.addItem(dataItem)
         }
+        $('#orc-modal-title').html(`Orçamento ${data.id}`)
         $('#form-pdf').attr('action', '/orcamentos/pdf-orcamento/'+data.id)
         $('#form-pdf').css('display', 'initial')
         $('#send-mail').css('display', 'initial')
