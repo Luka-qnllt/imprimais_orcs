@@ -86,17 +86,17 @@ class OrcamentoController extends Controller
 
             $created = $this->orcamentoService->create($dataOrc);
 
-            for($i=0; $i<count($valid_data['item_id']); $i++){
-                $data_item = [
-                    'id_orcamento'  => $created->id,
-                    'id'            => $valid_data['item_id'][$i],
-                    'titulo'        => $valid_data['item_titulo'][$i],
-                    'qtd'           => $valid_data['item_qtd'][$i],
-                    'valor_un'      => $this->unMaskMoney($valid_data['item_valor_un'][$i]),
-                ];
-                $this->orcamentoService->saveItem($data_item);
+            if (!empty($valid_data['item_titulo']) && count($valid_data['item_titulo'])) {
+                for($i=0; $i<count($valid_data['item_titulo']); $i++){
+                    $data_item = [
+                        'id_orcamento'  => $created->id,
+                        'titulo'        => $valid_data['item_titulo'][$i],
+                        'qtd'           => $valid_data['item_qtd'][$i],
+                        'valor_un'      => $this->unMaskMoney($valid_data['item_valor_un'][$i]),
+                    ];
+                    $this->orcamentoService->saveItem($data_item);
+                }
             }
-
 
             $out = ['status'=>true, 'data'=>$created];
             DB::commit();

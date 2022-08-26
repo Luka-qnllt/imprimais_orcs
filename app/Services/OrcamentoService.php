@@ -137,7 +137,7 @@ class OrcamentoService{
     }
 
     public function saveItem($data){
-        if(empty($data['id'])){
+        if(!isset($data['id']) || empty($data['id'])){
             $saved = $this->createItem($data);
         } else {
             $item = $this->getItemById($data['id']);
