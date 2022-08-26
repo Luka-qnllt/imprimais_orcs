@@ -54,13 +54,16 @@
     </head>
     <section>
         <br><br>
-        <h3 class="text-center text-secondary">{!! $params['pdf']['pdf-titulo'] !!}</h3><br>
+        <h3 class="text-center text-secondary">{!! $params['pdf']['pdf-titulo'] !!} - {{$orc->id}}</h3><br>
 
         <p class="text-secondary">{!! $params['pdf']['pdf-sub-titulo'] !!}</p><br>
 
-        <div style="border: solid 3px #EEE; width: 100%; padding: 7px;">
-            <label>Cliente: {{ $orc->solicitante }}</label>
+        <!-- <div style="border: solid 3px #EEE; width: 100%; padding: 7px;"> -->
+        <div>
+            <h4 style="margin: 0; margin-bottom: 5px;">Solicitante: {{ $orc->solicitante }}</h4>
+            <h4 style="margin: 0;">Responsável: {{ $orc->responsavel }}</h4>
         </div>
+
         <br>
         <div style="border: solid 3px #EEE">
             <table class="w-100">

@@ -70,6 +70,7 @@
                                     <table id="table-orc" class="table table-sm table-striped table-hover">
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th>Nota</th>
                                                 <th>Pedido</th>
                                                 <th>Solicitante</th>
@@ -97,7 +98,7 @@
         <div class="modal-dialog modal-xxl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Orçamento</h4>
+                    <h4 class="modal-title" id="orc-modal-title"></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
