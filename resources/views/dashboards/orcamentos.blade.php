@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table id="table-orc" class="table table-sm table-striped table-hover">
+                                    <table id="table-orc" class="table table-sm  table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Nota</th>
@@ -258,6 +258,46 @@
                         <div class="col-md-6 text-right">
                             <button  type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
                             <button type="submit" form="form-orc" class="btn btn-outline-success"><i class="far fa-check-circle"></i> Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL MAIL -->
+    <div class="modal fade" class="modal-md" aria-modal="true" id="modal-mail">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Enviar Email</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-mail">
+                        <input type="hidden" name="id_orc">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea name="message" class="form-control" placeholder="Mensagem"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="row w-100">
+                        <div class="col-md-12 text-right">
+                            <button  type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" form="form-mail" class="btn btn-outline-primary"><i class="far fa-paper-plane"></i> Enviar</button>
                         </div>
                     </div>
                 </div>
