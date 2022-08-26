@@ -60,8 +60,8 @@
 
         <!-- <div style="border: solid 3px #EEE; width: 100%; padding: 7px;"> -->
         <div>
-            <h4 style="margin: 0; margin-bottom: 5px;">Solicitante: {{ $orc->solicitante }}</h4>
-            <h4 style="margin: 0;">Responsável: {{ $orc->responsavel }}</h4>
+            <h4 style="margin: 0; margin-bottom: 5px;">Cliente: {{ $orc->responsavel }}</h4>
+            <h4 style="margin: 0;">Solicitante: {{ $orc->solicitante }}</h4>
         </div>
 
         <br>
