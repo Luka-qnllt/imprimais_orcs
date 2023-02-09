@@ -109,6 +109,7 @@ class OrcamentoController extends Controller
 
     public function filter(Request $request){
         $filters = [
+            'conteudo' => $request->input('conteudo'),
             'inicio' => $request->input('inicio'),
             'status' => $request->input('status'),
             'pagamento' => $request->input('pagamento'),

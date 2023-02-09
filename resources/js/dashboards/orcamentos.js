@@ -35,14 +35,17 @@ const page = {
                 onConfirm: ()=>{page.delete(id)}
             })
         })
-        $('#btn-search').on('click', page.list)
+        $('#form-search').on('submit', e => {
+            e.preventDefault()
+            page.list()
+        })
         $('#btn-clean-seach').on('click', function(){
+            $('#search-conteudo').val('')
             $('#search-inicio').val('')
             $('#search-status').val('')
             $('#search-pagamento').val('PD')
             $('#search-prioridade').val('')
         })
-
 
         /**
          * email sand
@@ -52,6 +55,7 @@ const page = {
         $('.modal').on('hidden.bs.modal', function(){
             $('.modal').css('orverflow', 'auto')
         })
+
     },
     resetForm: function(){
         $('#orc-modal-title').html(`Novo orçamento`)
@@ -154,6 +158,7 @@ const page = {
             type: 'post',
             dataType: 'json',
             data: {
+                conteudo: $('#search-conteudo').val(),
                 inicio: $('#search-inicio').val(),
                 status: $('#search-status').val(),
                 pagamento: $('#search-pagamento').val(),
@@ -218,7 +223,7 @@ const page = {
                     "order": [[0, 'desc']]
                 })
                 
-                console.log('currentPage ', currentPage)
+                // console.log('currentPage ', currentPage)
                 setTimeout(()=>{$(`.page-item a[data-dt-idx=${currentPage}]`).click()}, 100)
                 //infos
                 $('#receber').html(utils.toMoney(infos.receber))
@@ -249,7 +254,7 @@ const page = {
         })
     },
     setValueOrc: function(data){
-        console.log(data)
+        // console.log(data)
         const form = $('#form-orc')
         for(let i in data){
             const element = form.find(`[name=${i}]`)
@@ -363,12 +368,60 @@ const page = {
                 console.error(e)
             }
         })
+    },
+
+    ddImgForm: () => {
+        const box = $('#drop-box')
+        // if (isAdvancedUpload) {
+        //     form.addClass('has-advanced-upload');
+        // }
+        let isAdvancedUpload = function() {
+            var div = document.createElement('div');
+            return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
+        }(),
+
+            input = $('#file'),
+            label = $('.box__filename'),
+            showFiles = function(fileName = '') {
+                let name = fileName
+                let nameArr = fileName.split('.')
+                fistName = nameArr.slice(0, nameArr.length-1).join('.')
+                if (fistName.length > 19) {
+                    name = fistName.replace(/(?<=^.{8}).*(?=.{8}?)/, '...') + '.' + nameArr.slice(nameArr.length-1)
+                }
+                label.text(name);
+            };
+
+        if (isAdvancedUpload) {
+            var droppedFiles = false;
+          
+            box.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            })
+            .on('dragover dragenter', function() {
+                box.addClass('is-dragover');
+            })
+            .on('dragleave dragend drop', function() {
+                box.removeClass('is-dragover');
+            })
+            .on('drop', function(e) {
+                droppedFiles = e.originalEvent.dataTransfer.files;
+                showFiles( droppedFiles[0].name );
+            });
+
+            input.on('change', function(e) {
+                showFiles(e.target.files[0].name);
+            });
+        }
     }
 }
 
-$(document).ready(function(){
+
+$(function(){
     page.bindEvents()
     page.list()
+    // page.ddImgForm()
     $('.money').maskMoney({decimal: ',', thousands: '.'})
     $('.modal').css('orverflow', 'auto')
 })

@@ -1,69 +1,110 @@
 @extends('adminlte::page')
 
 @section('content')
+    <style>
+        .btn-delete {
+            z-index: 9999;
+        }
+
+        .box__file {
+            display: none;
+        }
+        .box {
+            /* background-color: white; */
+            /* outline-offset: -10px; */
+            padding: .5rem;
+            outline: 2px dashed lightgrey;
+            border-radius: .4rem;
+            height: 8rem;
+            width: 8rem;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .box:hover {
+            cursor: pointer;
+        }
+        /* .box.has-advanced-upload .box__dragndrop {
+            display: inline;
+        } */
+        .box.is-dragover {
+            background-color: grey;
+        }
+        .box__filename {
+            word-break: break-word;
+        }
+    </style>
     <h2 class="page-title">Orçamentos</h2>
-    <form>
+    <!-- <form> -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="search-pagamento">Pagamento</label>
-                                    <select id="search-pagamento" class="form-control search-reset">
-                                        <option value="">Todos</option>
-                                        <option value="PG">Pago</option>
-                                        <option value="PD" selected>Pendente</option>
-                                    </select>
+                        <form id="form-search">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="search-pagamento">Pagamento</label>
+                                        <select id="search-pagamento" class="form-control search-reset">
+                                            <option value="">Todos</option>
+                                            <option value="PG">Pago</option>
+                                            <option value="PD" selected>Pendente</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="search-status">Status</label>
-                                    <select  id="search-status" class="form-control">
-                                        <option value="" selected>Todos</option>
-                                        <option value="5">Não Iniciado</option>
-                                        <option value="4">Aguardando Aprovação</option>
-                                        <option value="3">Em Andamento</option>
-                                        <option value="2">Concluído</option>
-                                        <option value="1">Entregue</option>
-                                    </select>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="search-status">Status</label>
+                                        <select  id="search-status" class="form-control">
+                                            <option value="" selected>Todos</option>
+                                            <option value="5">Não Iniciado</option>
+                                            <option value="4">Aguardando Aprovação</option>
+                                            <option value="3">Em Andamento</option>
+                                            <option value="2">Concluído</option>
+                                            <option value="1">Entregue</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="search-prioridade">Prioridade</label>
-                                    <select  id="search-prioridade" class="form-control">
-                                        <option value="" selected>Todos</option>
-                                        <option value="1">Alta</option>
-                                        <option value="2">Média</option>
-                                        <option value="3">Baixa</option>
-                                    </select>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="search-prioridade">Prioridade</label>
+                                        <select  id="search-prioridade" class="form-control">
+                                            <option value="" selected>Todos</option>
+                                            <option value="1">Alta</option>
+                                            <option value="2">Média</option>
+                                            <option value="3">Baixa</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="search-inicio">Data de Início</label>
-                                    <input  type="date" id="search-inicio" class="form-control">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="search-inicio">Data de Início</label>
+                                        <input  type="date" id="search-inicio" class="form-control">
+                                    </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="search-conteudo">Conteúdo</label>
+                                        <input id="search-conteudo" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-12"><hr class="sep-dot"></div>
+                                <div class="col-md-4">
+                                    <button type="submit" form="form-search" id="btn-search" class="btn btn-outline-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="button" id="btn-clean-seach" class="btn btn-outline-danger"><i class="fa fa-times"></i> Limpar</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="badge badge-danger">Pendentes: <span id="pendentes"></span></div>
+                                    <div class="badge badge-success">Recebido: <span id="recebido"></span></div>
+                                    <div class="badge badge-warning">A Receber: <span id="receber"></span></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" id="open-modal-orc" class="btn btn-outline-success float-right"><i class="fa fa-plus"></i> Novo</button>
+                                </div>
+                                <div class="col-12"><hr class="sep-dot"></div>
                             </div>
-                            <div class="col-12"><hr class="sep-dot"></div>
-                            <div class="col-md-4">
-                                <button type="button" id="btn-search" class="btn btn-outline-primary"><i class="fa fa-search"></i> Buscar</button>
-                                <button type="button" id="btn-clean-seach" class="btn btn-outline-danger"><i class="fa fa-times"></i> Limpar</button>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="badge badge-danger">Pendentes: <span id="pendentes"></span></div>
-                                <div class="badge badge-success">Recebido: <span id="recebido"></span></div>
-                                <div class="badge badge-warning">A Receber: <span id="receber"></span></div>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" id="open-modal-orc" class="btn btn-outline-success float-right"><i class="fa fa-plus"></i> Novo</button>
-                            </div>
-
-                            <div class="col-12"><hr class="sep-dot"></div>
-                        </div>
+                        </form>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
@@ -91,7 +132,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    <!-- </form> -->
 
 
     <div class="modal fade" aria-modal="true" id="modal-orc">
@@ -239,6 +280,22 @@
                             </div>
                         </div>
 
+                        <!-- <div class="row mt-2 mb-2">
+                            <div class="col-md-12">
+                                <label>Imagens</label>
+                                <div class="row ml-2 mr-2">
+                                    <input class="box__file" type="file" name="file" id="file"/>
+                                    <label id="drop-box" class="box" for="file">
+                                        <small>
+                                            <strong class="box__choose">Escolha um arquivo</strong><br>
+                                            <span class="box__dragndrop"> ou solte aqui</span>.
+                                        </small>
+                                        <small class="box__filename"></small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div> -->
+
                         <div class="row">
                             <div class="col-12">
                                 <label for="obs">Observações</label>
@@ -345,12 +402,6 @@
             </div>
         </div>
     </div>
-
-    <style>
-        .btn-delete {
-            z-index: 9999;
-        }
-    </style>
 @stop
 
 @section('js')

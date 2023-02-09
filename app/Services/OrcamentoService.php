@@ -87,15 +87,23 @@ class OrcamentoService{
     }
 
     public function filter($filters){
-
+        $content = $filters['conteudo'];
+        unset($filters['conteudo']);
         $query = $this->orcamento->orderBy('id', 'desc');
 
         foreach($filters as $key => $value){
             if(!empty($value))
                 $query->where($key, $value);
         }
+
+        if (!empty($content)) {
+            $query->join('orcamento_itens AS oi', function($items) use($content) {
+                $items->on('oi.id_orcamento', 'orcamentos.id')
+                        ->whereRaw("oi.titulo LIKE '%$content%'");
+            });
+        }
         
-        $result = $query->get();
+        $result = $query->groupBy('orcamentos.id')->select('orcamentos.*')->get();
 
         return $result;
     }
