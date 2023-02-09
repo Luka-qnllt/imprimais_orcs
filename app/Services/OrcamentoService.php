@@ -89,7 +89,7 @@ class OrcamentoService{
     public function filter($filters){
         $content = $filters['conteudo'];
         unset($filters['conteudo']);
-        $query = $this->orcamento->orderBy('id', 'desc');
+        $query = $this->orcamento->select('orcamentos.*');
 
         foreach($filters as $key => $value){
             if(!empty($value))
@@ -103,7 +103,7 @@ class OrcamentoService{
             });
         }
         
-        $result = $query->groupBy('orcamentos.id')->select('orcamentos.*')->get();
+        $result = $query->groupBy('orcamentos.id')->orderBy('id', 'desc')->get();
 
         return $result;
     }
