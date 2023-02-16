@@ -97,7 +97,9 @@
                 </tbody>
             </table>
         </div>
-        <br><br>
+        <br>
+        <small class="text-secondary">Obs.: Favor informar o número deste orçamento no Pedido de Compra, caso seja aprovado.</small>
+        <br>
         <div class="text-secondary text">
             <p>
                 <small>
