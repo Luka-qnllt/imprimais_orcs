@@ -103,7 +103,7 @@ class OrcamentoService{
             });
         }
         
-        $result = $query->groupBy('orcamentos.id')->orderBy('orcamentos.id', 'desc')->get();
+        $result = $query->groupBy('id','responsavel','solicitante','area','email','telefone','inicio','previsao','prioridade','status','valor_total','pagamento','obs','protocolo','pedido','nota_fiscal','updated_at','created_at')->orderBy('orcamentos.id', 'desc')->get();
 
         return $result;
     }
