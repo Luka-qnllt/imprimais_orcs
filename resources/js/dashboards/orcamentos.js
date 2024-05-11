@@ -62,7 +62,7 @@ const page = {
         $('#form-orc').trigger('reset')
         $('#form-orc').find('[name=id]').val('')
         $('#itens-wrap').html('')
-        $('#form-pdf').css('display', 'none')
+        $('.form-pdf').css('display', 'none')
         $('#send-mail').css('display', 'none')
     },
     addItem: function(data){
@@ -274,9 +274,13 @@ const page = {
             }
             page.addItem(dataItem)
         }
+
+        $('.form-pdf').each(function() {
+            const formBtn = $(this)
+            formBtn.attr('action', formBtn.attr('path')+'/'+data.id)
+        }).css('display', 'initial')
+
         $('#orc-modal-title').html(`Orçamento ${data.id}`)
-        $('#form-pdf').attr('action', '/orcamentos/pdf-orcamento/'+data.id)
-        $('#form-pdf').css('display', 'initial')
         $('#send-mail').css('display', 'initial')
         $('#modal-orc').modal('show')
     },

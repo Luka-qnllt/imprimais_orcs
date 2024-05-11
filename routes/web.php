@@ -7,7 +7,8 @@ use App\Http\Controllers\{
     OrcamentoController,
     ConfigController,
     PdfController,
-    EmailController
+    EmailController,
+    PdfOrdemServicoController
 };
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/orcamentos/ajax/delete-item/{item}', [OrcamentoController::class, 'deleteItem']);
 
     Route::post('/orcamentos/pdf-orcamento/{orcamento}', [PdfController::class, 'generatePdf']);
+    Route::post('/orcamentos/pdf-ordemservico/{orcamento}', [PdfOrdemServicoController::class, 'generatePdf']);
     Route::post('/orcamentos/ajax/send-mail/{orcamento}', [EmailController::class, 'sendMail']);
 
     // Route::get('/orcamentos/restorage', [OrcamentoController::class, 'restorage']);

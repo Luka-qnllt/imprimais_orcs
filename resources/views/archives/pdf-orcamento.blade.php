@@ -54,7 +54,12 @@
     </head>
     <section>
         <br><br>
-        <h3 class="text-center text-secondary">{!! $params['pdf']['pdf-titulo'] !!} - {{$orc->id}}</h3><br>
+        <div>
+            <h3 class="text-center text-secondary" style="margin: 0; margin-bottom: 5px;">{!! $params['pdf']['pdf-titulo'] !!} - {{$orc->id}}</h3>
+            @if(!empty($params['pdf']['pdf-titulo']))
+            <h3 class="text-center text-secondary">{!! $params['pdf']['pdf-titulo-2'] !!}</h3><br>
+            @endif
+        </div>
 
         <p class="text-secondary">{!! $params['pdf']['pdf-sub-titulo'] !!}</p><br>
 

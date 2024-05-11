@@ -307,8 +307,11 @@
                 <div class="modal-footer">
                     <div class="row w-100">
                         <div class="col-md-6 text-left">
-                            <form action="/orcamentos/pdf-orcamento" id="form-pdf" method="post" target="_blank">
+                            <form path="/orcamentos/pdf-orcamento" id="form-pdf" class="form-pdf" method="post" target="_blank">
                                 <button type="submit" class="btn btn-outline-secondary"><i class="far fa-file-pdf"></i> Gerar PDF</button>
+                            </form>
+                            <form path="/orcamentos/pdf-ordemservico" id="form-pdf" class="form-pdf" method="post" target="_blank">
+                                <button type="submit" class="btn btn-outline-secondary"><i class="far fa-file-pdf"></i> Ordem de Serviço</button>
                             </form>
                             <button type="button" class="btn btn-outline-primary" id="send-mail" style="display: none;"><i class="far fa-envelope"></i> Enviar Email</button>
                         </div>
