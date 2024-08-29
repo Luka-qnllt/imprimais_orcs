@@ -6,15 +6,22 @@ const page = {
             page.resetForm()
             $('#modal-orc').modal('show')
         })
-        $('#btn-add-item').on('click', function(){
+
+        // $('#btn-add-item').on('click', function(){
+        $('#form-add-item').on('submit', function(e) {
+            e.preventDefault()
+
             const data = {
                 titulo: $('#new-item-item').val(),
                 qtd: $('#new-item-qtd').val(),
                 valor_un: $('#new-item-valor-un').val(),
             }
-            if(data.titulo != '' && data.titulo != null )
+            
+            if (data.titulo != '' && data.titulo != null ) {
                 page.addItem(data)
+            }
         })
+
         $('#itens-wrap').on('click', '.btn-remove-item', page.removeItem)
         $('#form-orc').on('submit', function(evt){
             evt.preventDefault()
@@ -56,6 +63,26 @@ const page = {
             $('.modal').css('orverflow', 'auto')
         })
 
+        $('#itens-wrap').on('change', '.update-item', function() {
+            const el = $(this)
+            const sibling = el.parent().siblings().find('.update-item')
+
+            let quantity = 0
+            let value = 0
+
+            if (el.is('.item-quantity')) {
+                quantity = parseFloat(el.val())
+                value = utils.unMaskMoney(sibling.val())
+            } else {
+                quantity = parseFloat(sibling.val())
+                value = utils.unMaskMoney(el.val())
+            }
+
+            const total = !isNaN(value * parseFloat(quantity)) ? value * parseFloat(quantity) : 0
+            el.parent().siblings('.total-item').html(utils.toMoney(total)).data('valor', total)
+            page.atualizeTotalItens()
+        })
+
     },
     resetForm: function(){
         $('#orc-modal-title').html(`Novo orçamento`)
@@ -76,10 +103,10 @@ const page = {
                 <input type="hidden" name='item_id[]' value='${data.id || ''}'>
                 <td class="p-0 index-item">#</td>
                 <td class="p-0"><input type="text" class="form-control border-0" name='item_titulo[]' value='${data.titulo}'></td>
-                <td class="p-0"><input type="number" min='0' class="form-control border-0" name='item_qtd[]' value='${data.qtd || 0}'></td>
-                <td class="p-0"><input type="text" class="form-control border-0 money" name='item_valor_un[]' value='${utils.toMoney(valor_un)}'></td>
+                <td class="p-0"><input type="number" min='0' class="update-item item-quantity form-control border-0" name='item_qtd[]' value='${data.qtd || 0}'></td>
+                <td class="p-0"><input type="text" class="update-item item-value form-control border-0 money" name='item_valor_un[]' value='${utils.toMoney(valor_un)}'></td>
                 <td class="p-0 total-item" data-valor="${total}">${utils.toMoney(total)}</td>
-                <td class="p-0"><i class="fa fa-times text-danger hover btn-remove-item" data-id="${data.id || ''}" data-index="${index}"></i></td>
+                <td class="p-0"><button type="button" class="btn"><i class="fa fa-times text-danger btn-remove-item" data-id="${data.id || ''}" data-index="${index}"></i></button></td>
             </tr>`
 
         $('#itens-wrap').append(content)
@@ -167,10 +194,10 @@ const page = {
             success: (resp)=>{
                 utils.load.stop()
                 let currentPage = $('.page-item.active a').data('dt-idx') ? $('.page-item.active a').data('dt-idx') : 1
-                
+
                 let infos = {
                     receber: 0,
-                    recebido: 0,   
+                    recebido: 0,
                     pendentes: 0,
                 }
 
@@ -179,16 +206,16 @@ const page = {
 
                     //tr color
                     let trClass = ''
-                    if(orc.pagamento == 'PG'){                        
+                    if(orc.pagamento == 'PG'){
                         trClass = 'success'
-                    } else if (orc.prioridade == 1 && orc.status > 2 ){                       
+                    } else if (orc.prioridade == 1 && orc.status > 2 ){
                         trClass = 'warning'
                     } else if (orc.status == 1 && orc.pagamento == 'PD') {
                         trClass = 'danger'
                     }
 
                     //infos
-                    if(orc.pagamento == 'PG'){                        
+                    if(orc.pagamento == 'PG'){
                         infos.recebido += parseFloat(orc.valor_total)
                     }
                     if( orc.status > 2 ){
@@ -197,7 +224,7 @@ const page = {
                     if( orc.status == 1 && orc.pagamento == 'PD' ){
                         infos.receber += parseFloat(orc.valor_total)
                     }
-                    
+
                     content += `
                             <tr class="hover btn-edit ${trClass}" data-id="${orc.id}">
                                 <td>${orc.id}</td>
@@ -218,11 +245,11 @@ const page = {
                 const tableData = $('#table-orc').DataTable({
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
-                    }, 
+                    },
                     "pageLength": 50,
                     "order": [[0, 'desc']]
                 })
-                
+
                 // console.log('currentPage ', currentPage)
                 setTimeout(()=>{$(`.page-item a[data-dt-idx=${currentPage}]`).click()}, 100)
                 //infos
@@ -398,7 +425,7 @@ const page = {
 
         if (isAdvancedUpload) {
             var droppedFiles = false;
-          
+
             box.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
                 e.preventDefault();
                 e.stopPropagation();

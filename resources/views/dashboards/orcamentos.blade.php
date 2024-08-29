@@ -145,6 +145,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <form id="form-add-item" name="form-add-item"></form>
                     <form id="form-orc">
                         <input type="hidden" name="id">
                         <div class="row">
@@ -268,11 +269,11 @@
                                         <tfooter class="bg-light">
                                             <tr>
                                                 <td></td>
-                                                <td><input type="text" id="new-item-item" class="form-control item-reset"></td>
-                                                <td><input type="number" id="new-item-qtd" class="form-control item-reset"></td>
-                                                <td><input type="text" id="new-item-valor-un" class="form-control money item-reset"></td>
+                                                <td><input form="form-add-item" type="text" id="new-item-item" class="form-control item-reset"></td>
+                                                <td><input form="form-add-item" type="number" id="new-item-qtd" class="form-control item-reset"></td>
+                                                <td><input form="form-add-item" type="text" id="new-item-valor-un" class="form-control money item-reset"></td>
                                                 <td></td>
-                                                <td><i class="fa fa-plus text-primary mt-2 hover" id="btn-add-item"></i></td>
+                                                <td class="p-0"><button type="submit" class="btn" form="form-add-item"><i class="fa fa-plus text-primary"></i></button></td>
                                             </tr>
                                         </tfooter>
                                     </table>

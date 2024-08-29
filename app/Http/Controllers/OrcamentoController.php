@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 class OrcamentoController extends Controller
 {
     private $orcamentoService;
-    
+
     public function __construct(
         OrcamentoService $orcamentoService
     )
@@ -35,7 +35,7 @@ class OrcamentoController extends Controller
     }
 
     public function save(Request $request){
-        
+
         $valid_data = $request->validate([
             'responsavel' => 'nullable|string',
             'solicitante' => 'nullable|string',
@@ -87,15 +87,21 @@ class OrcamentoController extends Controller
             $created = $this->orcamentoService->create($dataOrc);
 
             if (!empty($valid_data['item_titulo']) && count($valid_data['item_titulo'])) {
+                $total = 0;
                 for($i=0; $i<count($valid_data['item_titulo']); $i++){
+                    $value = $this->unMaskMoney($valid_data['item_valor_un'][$i]);
+                    $quantity = $valid_data['item_qtd'][$i];
                     $data_item = [
                         'id_orcamento'  => $created->id,
-                        'titulo'        => $valid_data['item_titulo'][$i],
+                        'titulo'        => $valid_data['item_titulo'][$i] ?: '',
                         'qtd'           => $valid_data['item_qtd'][$i],
-                        'valor_un'      => $this->unMaskMoney($valid_data['item_valor_un'][$i]),
+                        'valor_un'      => $value,
                     ];
                     $this->orcamentoService->saveItem($data_item);
+                    $total += $value * floatval($quantity);
                 }
+
+                $created->update(['valor_total' => $total]);
             }
 
             $out = ['status'=>true, 'data'=>$created];
@@ -171,25 +177,28 @@ class OrcamentoController extends Controller
                 'status'      => $valid_data['status'],
                 'pedido'      => $valid_data['pedido'],
                 'nota_fiscal' => $valid_data['nota_fiscal'],
-                'valor_total' => $this->unMaskMoney($valid_data['valor_total']),
+                'valor_total' => 0,
                 'pagamento'   => $valid_data['pagamento'],
                 'obs'         => $valid_data['obs'],
             ];
 
-            $updated = $this->orcamentoService->update($orcamento, $dataOrc);
-
             for($i=0; $i<count($valid_data['item_id']); $i++){
+                $value = $this->unMaskMoney($valid_data['item_valor_un'][$i]);
+                $quantity = $valid_data['item_qtd'][$i];
                 $data_item = [
                     'id_orcamento'  => $orcamento->id,
                     'id'            => $valid_data['item_id'][$i],
-                    'titulo'        => $valid_data['item_titulo'][$i],
+                    'titulo'        => $valid_data['item_titulo'][$i] ?: '',
                     'qtd'           => $valid_data['item_qtd'][$i],
-                    'valor_un'      => $this->unMaskMoney($valid_data['item_valor_un'][$i]),
+                    'valor_un'      => $value,
                 ];
                 $this->orcamentoService->saveItem($data_item);
+                $dataOrc['valor_total'] += $value * floatval($quantity);
             }
 
-            $out = ['status'=>true, 'data'=>$updated];
+            $updated = $this->orcamentoService->update($orcamento, $dataOrc);
+
+            $out = ['status'=>true, 'data'=>$updated, 'orc' => $dataOrc];
             DB::commit();
         } catch(Exception $e){
             $out = ['status'=>false, 'msg'=>$e->getMessage()];
@@ -206,7 +215,7 @@ class OrcamentoController extends Controller
             DB::commit();
         } catch (Exception $e){
             $out = ['status'=>false, 'msg'=>$e->getMessage()];
-            DB::rollBack();            
+            DB::rollBack();
         }
         return response()->json($out);
     }
